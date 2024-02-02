@@ -1,7 +1,6 @@
 import React from "react";
-
-function Cheolsu() {
-  return <div>Cheolsu</div>;
+function Cheolsu({ comments }) {
+  return <div>{JSON.stringify(comments)}</div>;
 }
 
 export default Cheolsu;

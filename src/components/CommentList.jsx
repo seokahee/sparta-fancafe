@@ -8,9 +8,9 @@ function CommentList({ comments, setComments }) {
   useEffect(() => {
     const storedComments = localStorage.getItem("comments");
     if (storedComments) {
-      setComments(JSON.parse(storedComments));
+      setComments([...comments, ...JSON.parse(storedComments)]);
     }
-  }, [setComments]);
+  }, []);
 
   // 게시글 상세보기, 게시물을 담을 스테이트, 모달창 여닫음을 확인하는 스테이트
   const [selectedComment, setSelectedComment] = useState(null);
