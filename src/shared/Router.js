@@ -1,7 +1,7 @@
 import Cheolsu from "pages/Cheolsu";
 import Home from "pages/Home";
 import Huni from "pages/Huni";
-import Jjanggu from "pages/Jjanggu";
+import 짱구 from "pages/짱구";
 import Maenggu from "pages/Maenggu";
 import Yuri from "pages/Yuri";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -11,7 +11,7 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="jjanggu" element={<Jjanggu />} />
+        <Route path="짱구" element={<짱구 />} />
         <Route path="cheolsu" element={<Cheolsu />} />
         <Route path="yuri" element={<Yuri />} />
         <Route path="maenggu" element={<Maenggu />} />
