@@ -2,7 +2,7 @@ import GlobalStyle from "GlobalStyle";
 import React, { useRef, useState } from "react";
 import uuid from "react-uuid";
 import styled from "styled-components";
-import user from "../image/user.jpg";
+import user from "../image/user.png";
 
 function AddForm({ comments, setComments }) {
   // 게시물 등록 state

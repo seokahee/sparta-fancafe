@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function Home({ comments, setComments }) {
-  console.log("comments", comments);
   const navigate = useNavigate();
 
   // 리스트 선택시 색상을 변경하기 위한 state
@@ -17,7 +16,7 @@ function Home({ comments, setComments }) {
   // 리스트 선택 이벤트, 클릭하면 selectedColor에 인자로 받은 color를 설정한다
   const memberClick = (member) => {
     setSelectedColor(member);
-    navigate("/Jjanggu");
+    navigate(`/${member}`);
   };
   const members = {
     jjanggu: "짱구",
@@ -26,8 +25,6 @@ function Home({ comments, setComments }) {
     maenggu: "맹구",
     huni: "훈이",
   };
-
-  console.log("object", Object.keys(members));
 
   return (
     <div>
@@ -61,7 +58,7 @@ function Home({ comments, setComments }) {
       </Members>
 
       <AddForm comments={comments} setComments={setComments} />
-      <CommentList comments={comments} setComments={setComments} />
+      {/* <CommentList comments={comments} setComments={setComments} /> */}
       <GlobalStyle />
     </div>
   );

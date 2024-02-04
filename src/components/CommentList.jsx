@@ -5,10 +5,16 @@ import CommentModal from "./CommentModal";
 
 function CommentList({ comments, setComments }) {
   // 댓글 불러오기
+
+  console.log("comments", comments);
   useEffect(() => {
     const storedComments = localStorage.getItem("comments");
+
     if (storedComments) {
-      setComments([...comments, ...JSON.parse(storedComments)]);
+      setComments((prevComments) => [
+        ...(prevComments || []), // prevComments가 undefined이면 빈 배열로 초기화
+        ...JSON.parse(storedComments),
+      ]);
     }
   }, []);
 
