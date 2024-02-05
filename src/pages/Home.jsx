@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import main from "image/main-img.png";
 import head from "image/head.png";
-import GlobalStyle from "GlobalStyle";
 import AddForm from "components/AddForm";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-function Home({ comments, setComments }) {
+function Home() {
   // url에 pathname을 가져옴
   const { pathname } = useLocation();
 
@@ -64,8 +63,7 @@ function Home({ comments, setComments }) {
         </ul>
       </Members>
 
-      <AddForm comments={comments} setComments={setComments} />
-      <GlobalStyle />
+      <AddForm />
     </div>
   );
 }
