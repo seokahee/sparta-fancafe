@@ -60,10 +60,6 @@ function AddForm({ comments, setComments }) {
     }
     alert(`${selectedRecipient}에게 게시글이 등록되었습니다`);
 
-    localStorage.setItem(
-      "comments",
-      JSON.stringify([...comments, newComments])
-    );
     setComments([...comments, newComments]);
 
     setNickName("");

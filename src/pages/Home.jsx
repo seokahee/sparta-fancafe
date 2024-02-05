@@ -3,15 +3,16 @@ import main from "image/main-img.png";
 import head from "image/head.png";
 import GlobalStyle from "GlobalStyle";
 import AddForm from "components/AddForm";
-import CommentList from "components/CommentList";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function Home({ comments, setComments }) {
+  const { pathname } = useLocation();
+
   const navigate = useNavigate();
 
   // 리스트 선택시 색상을 변경하기 위한 state
-  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedColor, setSelectedColor] = useState(pathname.slice(1));
 
   // 리스트 선택 이벤트, 클릭하면 selectedColor에 인자로 받은 color를 설정한다
   const memberClick = (member) => {
@@ -39,6 +40,7 @@ function Home({ comments, setComments }) {
       <Members>
         <ul>
           {Object.keys(members).map((item, idx) => {
+            console.log("selectedColor", selectedColor);
             return (
               <List
                 key={idx}
@@ -47,7 +49,7 @@ function Home({ comments, setComments }) {
                 }}
                 // 선택한 리스트를 찾기 위한 변수 selectedColor에 설정한 색상과 매개변수의 색상이 맞는지 확인
                 selected={selectedColor === item}
-                selectedMember={selectedColor}
+                $selectedMember={selectedColor}
                 member={item}
               >
                 {`${members[item]}`}
@@ -58,7 +60,6 @@ function Home({ comments, setComments }) {
       </Members>
 
       <AddForm comments={comments} setComments={setComments} />
-      {/* <CommentList comments={comments} setComments={setComments} /> */}
       <GlobalStyle />
     </div>
   );
@@ -107,7 +108,7 @@ const List = styled.li`
 
   /* List에서 선택한 li가 맞다면 백그라운드 컬러를 바꿀것 */
   background-color: ${(props) =>
-    props.selected ? memberColor(props.selectedMember) : "transparent"};
+    props.selected ? memberColor(props.$selectedMember) : "transparent"};
 
   &:hover {
     cursor: pointer;

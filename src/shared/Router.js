@@ -1,12 +1,8 @@
-import Cheolsu from "pages/Cheolsu";
 import Home from "pages/Home";
-import Huni from "pages/Huni";
-import Jjanggu from "pages/Jjanggu";
-import Maenggu from "pages/Maenggu";
-import Yuri from "pages/Yuri";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useState } from "react";
 import uuid from "react-uuid";
+import Members from "pages/Members";
 
 const Router = () => {
   const [comments, setComments] = useState([
@@ -73,24 +69,8 @@ const Router = () => {
           element={<Home comments={comments} setComments={setComments} />}
         />
         <Route
-          path="Jjanggu"
-          element={<Jjanggu comments={comments} setComments={setComments} />}
-        />
-        <Route
-          path="cheolsu"
-          element={<Cheolsu comments={comments} setComments={setComments} />}
-        />
-        <Route
-          path="yuri"
-          element={<Yuri comments={comments} setComments={setComments} />}
-        />
-        <Route
-          path="maenggu"
-          element={<Maenggu comments={comments} setComments={setComments} />}
-        />
-        <Route
-          path="huni"
-          element={<Huni comments={comments} setComments={setComments} />}
+          path=":memberName"
+          element={<Members comments={comments} setComments={setComments} />}
         />
       </Routes>
     </BrowserRouter>

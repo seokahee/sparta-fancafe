@@ -1,22 +1,11 @@
 import GlobalStyle from "GlobalStyle";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import CommentModal from "./CommentModal";
 
-function CommentList({ comments, setComments }) {
+function CommentList({ comments, setComments, memberName }) {
   // 댓글 불러오기
-
   console.log("comments", comments);
-  useEffect(() => {
-    const storedComments = localStorage.getItem("comments");
-
-    if (storedComments) {
-      setComments((prevComments) => [
-        ...(prevComments || []), // prevComments가 undefined이면 빈 배열로 초기화
-        ...JSON.parse(storedComments),
-      ]);
-    }
-  }, []);
 
   // 게시글 상세보기, 게시물을 담을 스테이트, 모달창 여닫음을 확인하는 스테이트
   const [selectedComment, setSelectedComment] = useState(null);
@@ -27,10 +16,15 @@ function CommentList({ comments, setComments }) {
     setSelectedComment(comments);
     setIsModalOpen(true);
   };
-
+  const filteredComments = comments.filter(
+    (comment) => comment.writedTo === memberName
+  );
   return (
     <div>
-      {comments.map((item) => {
+      {filteredComments.length === 0 ? (
+        <MsgDiv>등록된 메세지가 없습니다!</MsgDiv>
+      ) : null}
+      {filteredComments.map((item) => {
         return (
           <ContentsDiv
             key={item.id}
@@ -126,4 +120,16 @@ const ContentLi = styled.div`
   overflow: hidden; /* 넘치는 텍스트를 숨김 */
   text-overflow: ellipsis; /* 넘치는 텍스트를 줄임표로 표시 */
   max-width: 380px;
+`;
+const MsgDiv = styled.div`
+  width: 24%;
+  margin: 0 auto;
+  padding: 19px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fffdf2;
+  border-radius: 5px;
+  font-size: 20px;
+  text-align: center;
 `;
