@@ -1,4 +1,3 @@
-import React from "react";
 import GlobalStyle from "GlobalStyle";
 import Home from "./Home";
 import CommentList from "components/CommentList";
@@ -34,24 +33,20 @@ const membertable = {
   },
 };
 
-function Members({ comments, setComments }) {
+function Members() {
   // Router에서 변수로 선언된 memberName을 table에 접근하는 키로 사용할것이다
   const { memberName } = useParams();
   return (
     <div>
       <div>
-        <Home comments={comments} setComments={setComments} />
+        <Home />
 
         <MemberImg
           // 맴버테이블 객체에 [path = jjanggu]의 이미지로 접근하는것
           src={membertable[memberName].img}
           alt={membertable[memberName].name}
         />
-        <CommentList
-          comments={comments}
-          setComments={setComments}
-          memberName={membertable[memberName].name}
-        />
+        <CommentList memberName={membertable[memberName].name} />
         {/* 게시물 받는이를 구분하기 위해 테이블의 이름을 프롭스로 전달 */}
       </div>
       <GlobalStyle />

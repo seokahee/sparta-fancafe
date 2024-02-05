@@ -1,15 +1,14 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { CommentContext } from "./context/CommentContext";
+import { UpdateContext } from "./context/UpdateContext";
 
-function CommentModal({
-  selectedComment,
-  setSelectedComment,
-  isModalOpen,
-  setIsModalOpen,
-  comments,
-  setComments,
-}) {
+function CommentModal() {
+  const { comments, setComments } = useContext(CommentContext);
+  const { selectedComment, setSelectedComment, isModalOpen, setIsModalOpen } =
+    useContext(UpdateContext);
+
   // 모달창 닫기
   const closeModal = () => {
     setSelectedComment(null);
@@ -82,7 +81,7 @@ function CommentModal({
       return;
     }
   };
-  const cancell = () => {
+  const cancel = () => {
     setIsUpdateComment(false);
     alert("수정을 취소했습니다.");
     return;
@@ -122,7 +121,7 @@ function CommentModal({
                   <button onClick={updateCompletion}>수정 완료</button>
                   <button
                     onClick={() => {
-                      cancell(false);
+                      cancel(false);
                     }}
                   >
                     취소
@@ -231,7 +230,7 @@ const Buttons = styled.div`
   justify-content: center;
   justify-content: space-around;
   button {
-    width: 20%;
+    width: 25%;
     padding: 1%;
     border-radius: 5px;
     border: none;

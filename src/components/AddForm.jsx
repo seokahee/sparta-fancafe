@@ -1,12 +1,11 @@
-import GlobalStyle from "GlobalStyle";
 import React, { useContext, useRef, useState } from "react";
 import uuid from "react-uuid";
 import styled from "styled-components";
 import user from "../image/user.png";
-import { MembersContext } from "./context/MembersContext";
+import { CommentContext } from "./context/CommentContext";
 
 function AddForm() {
-  const { contextData } = useContext(MembersContext);
+  const { comments, setComments } = useContext(CommentContext);
 
   // 게시물 등록 state
   const [nickName, setNickName] = useState("");
@@ -63,7 +62,7 @@ function AddForm() {
     }
     alert(`${selectedRecipient}에게 게시글이 등록되었습니다`);
 
-    contextData(newComments);
+    setComments([...comments, newComments]);
 
     setNickName("");
     setContent("");
@@ -115,7 +114,6 @@ function AddForm() {
           </form>
         </FormDiv>
       </InputContainer>
-      <GlobalStyle />
     </div>
   );
 }

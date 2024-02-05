@@ -1,6 +1,7 @@
 import GlobalStyle from "GlobalStyle";
-import { MembersContext } from "components/context/MembersContext";
-import React, { useState } from "react";
+import { CommentContext } from "components/context/CommentContext";
+import { UpdateContext } from "components/context/UpdateContext";
+import { useState } from "react";
 import uuid from "react-uuid";
 import Router from "shared/Router";
 
@@ -60,12 +61,23 @@ function App() {
       })(),
     },
   ]);
+  const [selectedComment, setSelectedComment] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  <MembersContext.Provider value={{ comments, setComments }}>
-    <GlobalStyle>
-      <Router />;
-    </GlobalStyle>
-  </MembersContext.Provider>;
+  return (
+    <CommentContext.Provider value={{ comments, setComments }}>
+      <UpdateContext.Provider
+        value={{
+          selectedComment,
+          setSelectedComment,
+          isModalOpen,
+          setIsModalOpen,
+        }}
+      >
+        <Router />
+        <GlobalStyle />
+      </UpdateContext.Provider>
+    </CommentContext.Provider>
+  );
 }
-
 export default App;

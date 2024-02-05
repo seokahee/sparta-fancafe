@@ -1,15 +1,15 @@
-import GlobalStyle from "GlobalStyle";
-import { useState } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import CommentModal from "./CommentModal";
+import { CommentContext } from "./context/CommentContext";
+import { UpdateContext } from "./context/UpdateContext";
 
-function CommentList({ comments, setComments, memberName }) {
-  // 댓글 불러오기
-  console.log("comments", comments);
+function CommentList({ memberName }) {
+  const { comments } = useContext(CommentContext);
 
   // 게시글 상세보기, 게시물을 담을 스테이트, 모달창 여닫음을 확인하는 스테이트
-  const [selectedComment, setSelectedComment] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { setSelectedComment, setIsModalOpen } = useContext(UpdateContext);
 
   // 게시물을 클릭하면 모달창 상태를 변경
   const GetComments = (comments) => {
@@ -50,15 +50,7 @@ function CommentList({ comments, setComments, memberName }) {
           </ContentsDiv>
         );
       })}
-      <GlobalStyle />
-      <CommentModal
-        selectedComment={selectedComment}
-        setSelectedComment={setSelectedComment}
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        comments={comments}
-        setComments={setComments}
-      />
+      <CommentModal />
     </div>
   );
 }
