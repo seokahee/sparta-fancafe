@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function CommentModal({
@@ -14,6 +15,9 @@ function CommentModal({
     setSelectedComment(null);
     setIsModalOpen(false);
   };
+
+  const navigate = useNavigate();
+
   // 게시물 삭제
   const removeComment = (id) => {
     if (window.confirm("게시물을 삭제하시겠습니까?")) {
@@ -21,8 +25,8 @@ function CommentModal({
       const deleteComment = comments.filter((item) => item.id !== id);
       localStorage.setItem("comments", JSON.stringify(deleteComment));
       setComments(deleteComment);
-
-      return closeModal();
+      closeModal();
+      return navigate("/");
     }
     alert("삭제를 취소했습니다.");
     return;
@@ -57,20 +61,21 @@ function CommentModal({
         alert("내용을 입력해 주세요");
         updateEl.current.focus();
       } else {
-        // 수정된 내용을 스테이트에 저장하고, 로컬스토리지에도 저장
+        // 수정된 내용을 모달창 스테이트에 저장
         setSelectedComment({ ...selectedComment, content: updateComment });
 
+        // comment의 id와 selectedComment의 id가 같으면 comment스테이트 수정
         const updatedComments = comments.map((comment) =>
           comment.id === selectedComment.id
             ? { ...comment, content: updateComment }
             : comment
         );
-        localStorage.setItem("comments", JSON.stringify(updatedComments));
         setComments(updatedComments);
 
         // 수정 상태 초기화 및 모달 닫기
         setIsUpdateComment(false);
-        return closeModal();
+        closeModal();
+        return navigate("/");
       }
     } else {
       alert("수정을 취소했습니다.");
