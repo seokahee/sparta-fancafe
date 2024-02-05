@@ -72,6 +72,7 @@ const Router = () => {
           path=":memberName"
           element={<Members comments={comments} setComments={setComments} />}
         />
+        {/* :memberName = : 변수로 선언한다는것 */}
       </Routes>
     </BrowserRouter>
   );

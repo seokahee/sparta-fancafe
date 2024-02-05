@@ -16,11 +16,13 @@ function CommentList({ comments, setComments, memberName }) {
     setSelectedComment(comments);
     setIsModalOpen(true);
   };
+  // 필터 함수를 통해 게시물의 받는이와 멤버 이름이 같은것만 반환
   const filteredComments = comments.filter(
     (comment) => comment.writedTo === memberName
   );
   return (
     <div>
+      {/* 필터링된 게시물 배열이 없으면 등록된 메세지가 없음을 띄우고, 배열이 존재하면 null값으로 표기한다 */}
       {filteredComments.length === 0 ? (
         <MsgDiv>등록된 메세지가 없습니다!</MsgDiv>
       ) : null}

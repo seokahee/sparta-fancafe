@@ -7,24 +7,28 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function Home({ comments, setComments }) {
+  // url에 pathname을 가져옴
   const { pathname } = useLocation();
 
   const navigate = useNavigate();
 
-  // 리스트 선택시 색상을 변경하기 위한 state
+  // 멤버이름 선택시 색상을 변경하기 위한 state에 / 이후 이름을 기본값으로 넣어줌 ex.jjanggu
   const [selectedColor, setSelectedColor] = useState(pathname.slice(1));
 
-  // 리스트 선택 이벤트, 클릭하면 selectedColor에 인자로 받은 color를 설정한다
-  const memberClick = (member) => {
-    setSelectedColor(member);
-    navigate(`/${member}`);
-  };
+  // 스위치 문을 통해 키 값에 맞는 색상을 반환하고, 클릭 이벤트 navigate를 사용하기 위한 객체
   const members = {
     jjanggu: "짱구",
     cheolsu: "철수",
     yuri: "유리",
     maenggu: "맹구",
     huni: "훈이",
+  };
+
+  // 멤버이름 선택 이벤트
+  const memberClick = (member) => {
+    // selectedColor에 클릭한 멤버객체가 들어감 jjanggu: "짱구",
+    setSelectedColor(member);
+    navigate(`/${member}`);
   };
 
   return (
@@ -40,16 +44,17 @@ function Home({ comments, setComments }) {
       <Members>
         <ul>
           {Object.keys(members).map((item, idx) => {
-            console.log("selectedColor", selectedColor);
             return (
               <List
                 key={idx}
                 onClick={() => {
                   memberClick(item);
                 }}
-                // 선택한 리스트를 찾기 위한 변수 selectedColor에 설정한 색상과 매개변수의 색상이 맞는지 확인
+                // selected는 선택한 멤버이름과(item)  selectedColor state에 저장된 멤버 이름이 맞는지 확인
                 selected={selectedColor === item}
                 $selectedMember={selectedColor}
+                // $ : 스타일드컴포넌트에서만 사용하는 변수를 의미함
+                // 선택한 멤버 이름을 selectedMember에 넣어준다
                 member={item}
               >
                 {`${members[item]}`}
@@ -106,16 +111,17 @@ const List = styled.li`
   text-align: center;
   border: 3px solid ${(props) => memberColor(props.member)};
 
-  /* List에서 선택한 li가 맞다면 백그라운드 컬러를 바꿀것 */
+  /* 선택한 멤버 이름이 맞을 경우 백그라운드 컬러를 바꾸고 아니면 투명으로 */
   background-color: ${(props) =>
     props.selected ? memberColor(props.$selectedMember) : "transparent"};
 
   &:hover {
     cursor: pointer;
+    // 멤버 객체 키에 맞는 색상을 반환
     background-color: ${(props) => memberColor(props.member)};
   }
 `;
-
+// 멤버 객체 키 값에 맞는 색상을 반환
 const memberColor = function (members) {
   switch (members) {
     case "jjanggu":
