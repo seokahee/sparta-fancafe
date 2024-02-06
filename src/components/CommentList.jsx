@@ -1,20 +1,19 @@
-import { useContext } from "react";
 import styled from "styled-components";
 import CommentModal from "./CommentModal";
-import { CommentContext } from "./context/CommentContext";
-import { UpdateContext } from "./context/UpdateContext";
+import { useDispatch, useSelector } from "react-redux";
+import { modalOpenAction, updatecommentsAction } from "redux/modules/Comments";
 
 function CommentList({ memberName }) {
-  const { comments } = useContext(CommentContext);
+  const comments = useSelector((state) => state.commentsReducer.comments);
+
+  const dispatch = useDispatch();
 
   // 게시글 상세보기, 게시물을 담을 스테이트, 모달창 여닫음을 확인하는 스테이트
-
-  const { setSelectedComment, setIsModalOpen } = useContext(UpdateContext);
+  // const { setSelectedComment, setIsModalOpen } = useContext(UpdateContext);
 
   // 게시물을 클릭하면 모달창 상태를 변경
   const GetComments = (comments) => {
-    setSelectedComment(comments);
-    setIsModalOpen(true);
+    dispatch(updatecommentsAction(comments), modalOpenAction());
   };
   // 필터 함수를 통해 게시물의 받는이와 멤버 이름이 같은것만 반환
   const filteredComments = comments.filter(
@@ -26,30 +25,30 @@ function CommentList({ memberName }) {
       {filteredComments.length === 0 ? (
         <MsgDiv>등록된 메세지가 없습니다!</MsgDiv>
       ) : null}
-      {filteredComments.map((item) => {
-        return (
-          <ContentsDiv
-            key={item.id}
-            onClick={() => {
-              GetComments(item);
-            }}
-          >
-            <ul>
-              <ProfileDiv>
-                <img src={item.profileImg} alt="프로필사진" />
-                <CommentDiv>
-                  <div>
-                    <NickName>{item.nickName}</NickName>
+      {/* {filteredComments.map((item) => { */}
+      return (
+      <ContentsDiv
+        key={comments.id}
+        onClick={() => {
+          GetComments(comments);
+        }}
+      >
+        <ul>
+          <ProfileDiv>
+            <img src={comments.profileImg} alt="프로필사진" />
+            <CommentDiv>
+              <div>
+                <NickName>{comments.nickName}</NickName>
 
-                    <RegDate>{item.regDate}</RegDate>
-                  </div>
-                </CommentDiv>
-              </ProfileDiv>
-              <ContentLi>{item.content}</ContentLi>
-            </ul>
-          </ContentsDiv>
-        );
-      })}
+                <RegDate>{comments.regDate}</RegDate>
+              </div>
+            </CommentDiv>
+          </ProfileDiv>
+          <ContentLi>{comments.content}</ContentLi>
+        </ul>
+      </ContentsDiv>
+      );
+      {/* })} */}
       <CommentModal />
     </div>
   );

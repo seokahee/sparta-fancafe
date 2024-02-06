@@ -1,18 +1,21 @@
-import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { CommentContext } from "./context/CommentContext";
-import { UpdateContext } from "./context/UpdateContext";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deletecommentsAction,
+  modalCloseAction,
+  updatecommentsAction,
+} from "redux/modules/Comments";
 
 function CommentModal() {
-  const { comments, setComments } = useContext(CommentContext);
-  const { selectedComment, setSelectedComment, isModalOpen, setIsModalOpen } =
-    useContext(UpdateContext);
+  const comments = useSelector((state) => state.commentsReducer.comments);
+  const modal = useSelector((state) => state.commentsReducer.isModal);
+
+  const dispatch = useDispatch();
 
   // 모달창 닫기
   const closeModal = () => {
-    setSelectedComment(null);
-    setIsModalOpen(false);
+    dispatch(updatecommentsAction(null), modalCloseAction());
   };
 
   const navigate = useNavigate();
@@ -20,11 +23,9 @@ function CommentModal() {
   // 게시물 삭제
   const removeComment = (id) => {
     if (window.confirm("게시물을 삭제하시겠습니까?")) {
-      alert(`${selectedComment.writedTo}에게 작성된 게시물이 삭제되었습니다.`);
-      const deleteComment = comments.filter((item) => item.id !== id);
-      localStorage.setItem("comments", JSON.stringify(deleteComment));
-      setComments(deleteComment);
-      closeModal();
+      alert(`${comments.writedTo}에게 작성된 게시물이 삭제되었습니다.`);
+      dispatch(deletecommentsAction(id));
+      modalCloseAction();
       return navigate("/");
     }
     alert("삭제를 취소했습니다.");
@@ -89,7 +90,7 @@ function CommentModal() {
 
   return (
     <div>
-      {isModalOpen && (
+      {modal && (
         <Modal>
           <ModalContent>
             <ModalProfile>

@@ -1,16 +1,17 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import uuid from "react-uuid";
 import styled from "styled-components";
 import user from "../image/user.png";
-import { CommentContext } from "./context/CommentContext";
+import { useDispatch } from "react-redux";
+import { addcommentsAction } from "redux/modules/Comments";
 
 function AddForm() {
-  const { comments, setComments } = useContext(CommentContext);
-
   // 게시물 등록 state
   const [nickName, setNickName] = useState("");
   const [content, setContent] = useState("");
   const [selectedRecipient, setSelectedRecipient] = useState("");
+
+  const dispatch = useDispatch();
 
   // 게시물 등록 state별 change이벤트
   const addNickName = (e) => {
@@ -33,6 +34,7 @@ function AddForm() {
   // 게시물 추가
   const addComments = (e) => {
     e.preventDefault();
+
     const newComments = {
       id: uuid(),
       nickName,
@@ -62,11 +64,12 @@ function AddForm() {
     }
     alert(`${selectedRecipient}에게 게시글이 등록되었습니다`);
 
-    setComments([...comments, newComments]);
+    dispatch(addcommentsAction(newComments));
 
-    setNickName("");
-    setContent("");
-    setSelectedRecipient("");
+    // setNickName("");
+    // setContent("");
+    // setSelectedRecipient("");
+    e.target.reset();
     return;
   };
 
